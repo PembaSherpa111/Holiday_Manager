@@ -5,7 +5,7 @@ There is also option to remove holidays from the file.
 You can view the list of holidays by entering the year and week number. For the current weeek there is even an option to view weather information. The weather information is retrieved from https://rapidapi.com/weatherapi/api/weatherapi-com/
 
 # Installation Guide
-Only Holiday_Manager.py and holidays.json are required. But both of these file needs to be in same location.
+Holiday_Manager.py and holidays.json needs to be in same location.
 
 # Module needed
 json, beautifulsoup, requests, dataclass, datetime, and os
