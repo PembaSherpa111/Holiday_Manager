@@ -203,9 +203,28 @@ def menu_3():
 
 def menu_4():
     print("\nView Holidays\n============")
-    year = input("Which year? ")
-    week_number = input("Which week? #[0-52, Leave blank for the current week]: ") #weeek 0 is the days before 1st monday of the year
-    if len(week_number) == 0:
+    invalid_input = True
+
+    while invalid_input == True: #input value for year must be integer
+        try:
+            year = int(input("Which year? "))
+            invalid_input = False
+        except:
+            print("Invalid input. The format of the year is YYYY")
+    while len(str(year)) != 4:
+        year = input("Invalid Year. Please enter the year in the format YYYY: ")
+    
+    invalid_input = True
+    while invalid_input == True: #input value for year must be integer
+        try:
+            week_number = 54 #random number outside 0:52
+            while week_number not in range(0,53): 
+                week_number = int(input("Which week? #[0-52, Leave blank for the current week]: ")) #weeek 0 is the days before 1st monday of the year
+            invalid_input = False
+        except:
+            print("Invalid input")
+
+    if len(str(week_number)) == 0:
         Holidayschedule.viewCurrentWeek()
     else:
         Holidayschedule.displayHolidaysInWeek(year, week_number)
@@ -233,6 +252,8 @@ def main():
     global Holidayschedule
     Holidayschedule = HolidayList() #initializing
     Holidayschedule.read_json()
+    global changes_exist
+    changes_exist = False
     Holidayschedule.scrapeHolidays()
     exit = False
     while exit == False:
