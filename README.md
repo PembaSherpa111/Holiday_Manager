@@ -7,9 +7,8 @@ You can view the list of holidays by entering the year and week number. For the 
 # Installation Guide
 Only Holiday_Manager.py and holidays.json are required. But both of these file needs to be in same location.
 
-# Some Note on week number
-week 1 starts with the 1st Monday of the year. So, week 0 consist of the days before 1st Monday of the year.
-
-# Module used:
+# Module needed:
 json, beautifulsoup, requests, dataclass, datetime, and os
 
+# Some Note on week number
+week 1 starts with the 1st Monday of the year. So, week 0 consist of the days before 1st Monday of the year.
