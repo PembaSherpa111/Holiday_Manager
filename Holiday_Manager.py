@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import requests
 from dataclasses import dataclass
 import os
+from ignore import key #api key for weather data
 
 @dataclass
 class Holiday:
@@ -129,7 +130,7 @@ class HolidayList():
         querystring = {"q":"Milwaukee,US","dt":f"{dt}","lang":"en","end_dt":f"{end_dt}"}
         headers = {
             'x-rapidapi-host': "weatherapi-com.p.rapidapi.com",
-            'x-rapidapi-key': "ce5e49171dmsh7e4d72530c6f34cp1825f2jsnafec190c6bd4"
+            'x-rapidapi-key': key()
             }
         response = requests.request("GET", url, headers=headers, params=querystring).json()
         weather = response["forecast"]["forecastday"]
