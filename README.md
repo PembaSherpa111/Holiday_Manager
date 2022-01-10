@@ -9,3 +9,7 @@ Only Holiday_Manager.py and holidays.json are required. But both of these file n
 
 # Some Note on week number
 week 1 starts with the 1st Monday of the year. So, week 0 consist of the days before 1st Monday of the year.
+
+# Module used:
+json, beautifulsoup, requests, dataclass, datetime, and os
+
