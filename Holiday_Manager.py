@@ -234,6 +234,8 @@ def menu_4():
                 invalid_input = False
             elif int(week_number) in range(0,53):
                 invalid_input = False
+            else:
+                week_number = input("Invalid week number. Enter integer between 0 and 52 or leave blank for current week.\nWhich week? #[0-52, Leave blank for the current week]: ")
         except:
             if invalid_input == True:
                 week_number = input("Invalid week number. Enter integer between 0 and 52 or leave blank for current week.\nWhich week? #[0-52, Leave blank for the current week]: ")
