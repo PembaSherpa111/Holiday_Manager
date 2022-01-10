@@ -51,9 +51,12 @@ class HolidayList():
             if len(holidays_json) > 0: #checking if json is empty
                 holidays_list = holidays_json["holidays"] #"holidays" is key
                 for i in range(0,len(holidays_list)):
-                    holidayObj = Holiday(holidays_list[i]["name"],holidays_list[i]["date"])
-                    self.innerHolidays.append(holidayObj) 
-                    # self.addHoliday(holidayObj) can also be used 
+                    name = holidays_list[i]["name"]
+                    date = holidays_list[i]["date"]
+                    if self.findHoliday(name, date) == False:
+                        holidayObj = Holiday(name,date)
+                        self.innerHolidays.append(holidayObj) 
+                        # self.addHoliday(holidayObj) can also be used 
     
     def save_to_json(self):
         holidays_list = []
@@ -67,6 +70,7 @@ class HolidayList():
         print("\nSuccess:\nYour changes have been saved.")
         global changes_exist
         changes_exist = False #pointing out the existing changes have been saved and no further changes exist
+        self.read_json()
 
     def scrapeHolidays(self):
         current_year = datetime.today().year
@@ -86,12 +90,16 @@ class HolidayList():
                     holidayObj = Holiday(name, date)
                     self.addHoliday(holidayObj)
                     save = "a" # random value which is not y or n
-                    while save.lower() not in ["y","n"]: #asking if saving is required as new holidays were scraped from the web
-                        save = input("\n New holiday data found. Do you want to save them? [y/n]: ")
-                    if save.lower() == "y":
-                        self.save_to_json()
-                    else:
-                        self.changes_exist() #pointing out there is a change in data   
+        try: 
+            if save == "a":
+                while save.lower() not in ["y","n"]: #asking if saving is required as new holidays were scraped from the web
+                    save = input("\n New holiday data found. Do you want to save them? [y/n]: ")
+                if save.lower() == "y":
+                    self.save_to_json()
+                else:
+                    self.changes_exist() #pointing out there is a change in data
+        except:
+            pass   
 
     def numHolidays(self):
         print(f"There are {len(self.innerHolidays)} holidays stored in the system.") # Return the total number of holidays in innerHolidays
@@ -147,8 +155,11 @@ class HolidayList():
                 print(f"\nThese are the holidays for this week: ")
                 for i in range(0,len(holidays)):
                     holiday = holidays[i]
-                    weather_list = list(filter(lambda weather: weather["date"] == holiday.date, weather)) #filtering weather detail by holiday date 
-                    weather_condition = weather_list[0]["condition"]
+                    weather_list = list(filter(lambda weather: weather["date"] == holiday.date, weather)) #filtering weather detail by holiday date
+                    try:
+                        weather_condition = weather_list[0]["condition"]
+                    except:
+                        weather_condition = "weather data not available"
                     print(f"{holiday} - {weather_condition}")
             else:
                 print("There are no holidays this week.")
@@ -203,26 +214,29 @@ def menu_3():
 
 def menu_4():
     print("\nView Holidays\n============")
-    invalid_input = True
-
-    while invalid_input == True: #input value for year must be integer
-        try:
-            year = int(input("Which year? "))
-            invalid_input = False
-        except:
-            print("Invalid input. The format of the year is YYYY")
-    while len(str(year)) != 4:
-        year = input("Invalid Year. Please enter the year in the format YYYY: ")
     
     invalid_input = True
     while invalid_input == True: #input value for year must be integer
         try:
-            week_number = 54 #random number outside 0:52
-            while week_number not in range(0,53): 
-                week_number = int(input("Which week? #[0-52, Leave blank for the current week]: ")) #weeek 0 is the days before 1st monday of the year
-            invalid_input = False
+            year = int(input("Which year? "))
+            if len(str(year)) == 4:
+                invalid_input = False
+            else:
+                print("Invalid Year. Please enter the year in the format YYYY.")
         except:
-            print("Invalid input")
+            print("Invalid input. The format of the year is YYYY.")
+
+    invalid_input = True
+    week_number = input("Which week? #[0-52, Leave blank for the current week]: ") #weeek 0 is the days before 1st monday of the year
+    while invalid_input == True:
+        try:   
+            if len(str(week_number)) == 0:
+                invalid_input = False
+            elif int(week_number) in range(0,53):
+                invalid_input = False
+        except:
+            if invalid_input == True:
+                week_number = input("Invalid week number. Enter integer between 0 and 52 or leave blank for current week.\nWhich week? #[0-52, Leave blank for the current week]: ")
 
     if len(str(week_number)) == 0:
         Holidayschedule.viewCurrentWeek()
