@@ -7,7 +7,7 @@ You can view the list of holidays by entering the year and week number. For the 
 # Installation Guide
 Only Holiday_Manager.py and holidays.json are required. But both of these file needs to be in same location.
 
-# Module needed:
+# Module needed
 json, beautifulsoup, requests, dataclass, datetime, and os
 
 # Some Note on week number
